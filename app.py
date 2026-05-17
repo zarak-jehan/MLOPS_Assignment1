@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Literal
 import pandas as pd
 import joblib
 
@@ -8,6 +9,8 @@ model = joblib.load("diabetes_model.pkl")
 training_columns = joblib.load("training_columns.pkl")
 
 app = FastAPI()
+
+
 class PatientData(BaseModel):
     age: float
     urea: float
@@ -19,7 +22,7 @@ class PatientData(BaseModel):
     ldl: float
     vldl: float
     bmi: float
-    gender: str
+    gender: Literal["M", "F"]
 
 
 
@@ -46,3 +49,4 @@ def predict(data: PatientData):
     return {
     "prediction": prediction
 }
+
